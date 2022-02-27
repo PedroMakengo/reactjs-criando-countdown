@@ -1,45 +1,33 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+
+const COUNTDOWN_INITIAL_TIME_IN_SECONDS = 25 * 60; // minutes
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [secondsAmount, setSecondsAmount] = useState(
+    COUNTDOWN_INITIAL_TIME_IN_SECONDS
+  );
+
+  useEffect(() => {
+    if (secondsAmount > 0) {
+      setTimeout(() => {
+        setSecondsAmount((secondsAmount) => secondsAmount - 1);
+      }, 1000);
+    } else {
+      alert("Chegou ao fim!");
+    }
+  }, [secondsAmount]);
+
+  // Math.ceil, Math.round e Math.floor
+  const minutes = Math.floor(secondsAmount / 60);
+  const seconds = secondsAmount % 60;
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+    <div>
+      <span>{String(minutes).padStart(2, "0")}</span>
+      <span>:</span>
+      <span>{String(seconds).padStart(2, "0")}</span>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
